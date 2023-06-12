@@ -1,11 +1,16 @@
 # Setup iOS Fastlane
 
-## Passo 1: Instalar e configurar o Fastlane
+## Passo 1: Criar app 
+
+Criar normalmente o projeto no portal da Apple juntamento com todos seus certificados e profiles.
+_Obs.: Sempre salvar e documentar todos os certificados na Wiki do projeto.
+
+## Passo 2: Instalar e configurar o Fastlane
 
 Para obter instruções de instalação do fastlane, consulte [Instalando _fastlane_](https://docs.fastlane.tools/getting-started/ios/setup/).
 É recomendado seguir a instalação via [_Bundler_](https://bundler.io/), além de instalar um gerenciador de versões do Ruby o [_rbenv_](https://github.com/rbenv/rbenv#readme).
 
-## Passo 2: Inserir variáveis de ambiente
+## Passo 3: Inserir variáveis de ambiente
 Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de ambiente no seu .env localizado dentro da pasta _fastlane_.
 
 #### Informações do app
@@ -89,7 +94,7 @@ _Exemplo de resultado:_
 </p>
 
 
-## Passo 3: Submeter certificados para o git
+## Passo 4: Submeter certificados para o git
 Ao criar o setup do projeto, deverá ser criado todos os certificados e profiles no portal developer normalmente.
 Após isso, será necessário adicionar todos eles em um repositório git (pode ser o mesmo do projeto, ou o mais recomendado, que é criar um um novo só para estes arquivos), para que o fastlane (através do __match__) possa utiliza-los e gerencia-los sempre que necessário.
 Para adicionar os certificados no repositório, (já com o ambiente configurado e variáveis de ambiente preenchidas), deverá ser utilizado os seguintes comandos:
@@ -104,7 +109,7 @@ Ao fazer isso, será necessário passar três arquivos (__.cer__, __.p12__ e __.
 
 
 
-## Passo 4: Configurar pipeline
+## Passo 5: Configurar pipeline
 
 -   #### Preencher variáveis na Azure Dev Ops
 	- Deverá ser preenchido o valor de todas as variáveis do projeto no portal da Azure em __Pipelines -> Library__
@@ -208,7 +213,7 @@ Por padrão a compilação é colocada dentro da pasta do projeto e utiliza a id
 ```bash
 bundle exec fastlane build_appStore
 ```
-## Passo 5: Executar pipeline
+## Passo 6: Executar pipeline
 Para executar o pipeline, você pode ir até a área "Pipelines" no portal Azure, selecionar a branch e os atributos desejados e executar, conforme a imagem abaixo:
 <p align="center">
   <img src="images/execute_pipe.png" width="600">
