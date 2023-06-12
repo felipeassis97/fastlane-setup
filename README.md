@@ -161,6 +161,7 @@ Ao fazer isso, será necessário passar três arquivos (__.cer__, __.p12__ e __.
 	inputs:
 		targetType:  'inline'
 		script:  |
+			bundle install
 			bundle exec fastlane build_distribution
 displayName:  'Build iOS'
 ```
@@ -182,6 +183,7 @@ displayName:  'Build iOS'
 	inputs:
 		targetType:  'inline'
 		script:  |
+			bundle install
 			bundle exec fastlane build_appStore
 displayName:  'Build iOS'
 ```
