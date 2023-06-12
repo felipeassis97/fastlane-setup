@@ -193,6 +193,9 @@ Por padrão a compilação é colocada dentro da pasta do projeto e utiliza a id
 ```bash
 bundle exec fastlane build_appStore
 ```
+## Passo 5: Executar pipeline
+Para executar o pipeline, você pode ir até a área "Pipelines" no portal Azure, selecionar a branch e os atributos desejados e executar, conforme a imagem abaixo:
+
 
 ## Extra: Configurar projeto no App Dist
 Para disponibilizar o app para testes , é necessário que o aplicativo tenha sido criado na plataforma [Soft App Distribution](https://app-dist.softdesign.com.br/) .
