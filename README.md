@@ -2,7 +2,7 @@
 
 ## Passo 1: Criar app 
 
-Criar normalmente o projeto no portal da Apple juntamento com todos seus certificados e profiles.
+Criar normalmente o projeto no portal da Apple juntamente com todos seus certificados e profiles.
 _Obs.: Sempre salvar e documentar todos os certificados na Wiki do projeto.
 
 ## Passo 2: Instalar e configurar o Fastlane
