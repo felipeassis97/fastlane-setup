@@ -21,6 +21,10 @@ Scheme do app. _Obs.: Em apps Flutter o padrão é Runner._
 - `TEAM_ID`
 O ID do time pode ser encontrado no  [_Portal Apple Developer_](https://developer.apple.com/account), na sessão __Membership details__.
 
+<p align="center">
+  <img src="images/team_id.png" width="400">
+</p>
+
 - `IC_TEAM_ID`
  Essa informação pode ser um pouco difícil de encontrar, mas é possível busca-la neste [_endpoint_](https://appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/ra/user/detail). Para ter acesso, é necessário estar logado na conta.
  _Obs.: A informação deve ser encontrada dentro do atributo __"contentProviderId".__ Você pode utilizar alguma ferramenta para  [_formatar JSON_](https://jsonformatter.curiousconcept.com/) visando facilitar a leitura.
@@ -61,17 +65,28 @@ Esta opção estará disponível em: App Store Connect -> User and Access -> Key
 O arquivo que é gerado é um .p8 que contém um token (É possível abrir em qualquer editor de texto) e é com ele que deverá ser preenchido o atributo ___key___ do JSON acima.
 Os outros atributos são preenchidos com os valores obtidos no portal conforme a foto.
 
- 
+<p align="center">
+  <img src="images/api_key_location.png" width="600">
+</p>
+
   > ---
 
 #### Variáveis Azure 
  - `URL_DOMAIN`
 O valor desta variável pode ser encontrado na url do repositório do projeto (conforme foto abaixo). O valor à ser preenchido deve ser somente a string que sucede o '__@__'.
-
+<p align="center">
+  <img src="images/create_url.png" width="600">
+</p>
  - `AZURE_TOKEN`
 O valor desta variável pode ser encontrado no portal da Azure no caminho ilustrado na imagem abaixo
+<p align="center">
+  <img src="images/create_token.png" width="400">
+</p>
 
-_Ex.:_
+_Exemplo de resultado:_
+<p align="center">
+  <img src="images/urls_result.png" width="600">
+</p>
 
 
 ## Passo 3: Submeter certificados para o git
@@ -195,10 +210,21 @@ bundle exec fastlane build_appStore
 ```
 ## Passo 5: Executar pipeline
 Para executar o pipeline, você pode ir até a área "Pipelines" no portal Azure, selecionar a branch e os atributos desejados e executar, conforme a imagem abaixo:
+<p align="center">
+  <img src="images/execute_pipe.png" width="600">
+</p>
+
 
 
 ## Extra: Configurar projeto no App Dist
 Para disponibilizar o app para testes , é necessário que o aplicativo tenha sido criado na plataforma [Soft App Distribution](https://app-dist.softdesign.com.br/) .
 Aqui está um exemplo de como criar:
+<p align="center">
+  <img src="images/app_dist_1.png" width="370">
+  <img src="images/app_dist_2.png" width="330">
+  <img src="images/app_dist_3.png" width="300">
+</p>
+
+
 
 _Obs.: Os atributos sublinhados nas imagens, são utilizados na configuração da task "deploy-app-binary@0" da Azure no arquivo de review e deploy (.yaml) do projeto._ 
