@@ -232,4 +232,4 @@ Aqui está um exemplo de como criar:
 
 
 
-_Obs.: Os atributos sublinhados nas imagens, são utilizados na configuração da task "deploy-app-binary@0" da Azure no arquivo de review e deploy (.yaml) do projeto._ 
+_Obs.: Os atributos sublinhados na última imagem, são utilizados na configuração da task "deploy-app-binary@0" da Azure no arquivo de review e deploy (.yaml) do projeto._ 
