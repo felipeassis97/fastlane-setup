@@ -186,7 +186,7 @@ bundle exec fastlane upload_play_store
 ## Passo 6: Executar pipeline
 Para executar o pipeline, você pode ir até a área "Pipelines" no portal Azure, selecionar a branch e os atributos desejados e executar, conforme a imagem abaixo:
 <p align="center">
-  <img src="images/execute_pipe.png" width="600">
+  <img src="images/pipe-android.png" width="600">
 </p>
 
 
