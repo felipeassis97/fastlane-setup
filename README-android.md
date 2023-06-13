@@ -29,9 +29,12 @@ Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de
 
 * `PLAY_STORE_CONFIG_JSON`
   > Esse arquivo é um token para o CI conseguir submeter versões diretamente na Google Play.
-  > Você pode obter essa chave em:  
-
-Aqui está um exemplo:
+Para obter essa chave, é necessário ser um __administrador__ da conta de desenvolvimento da Google.
+	<p align="center">
+  		<img src="images/google_auth.png" width="600">
+	</p> 
+> Você pode obter mais informações em [Fastlane Android setup](http://docs.fastlane.tools/actions/upload_to_play_store/#upload_to_play_store)
+- Aqui está um exemplo da chave gerada:
  ```
 {
     "type": "service_account",
@@ -46,49 +49,42 @@ Aqui está um exemplo:
     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x798/auth-sp-suite%40pc-api-5599031065322202413-660.iam.gserviceaccount.com"
   }
 ```
-Para obter essa chave, é necessário ser um __administrador__ da conta de desenvolvimento da Google.
-Esta opção estará disponível em: App Store Connect -> User and Access -> Keys (Conforme a imagem abaixo).
-O arquivo que é gerado é um .p8 que contém um token (É possível abrir em qualquer editor de texto) e é com ele que deverá ser preenchido o atributo ___key___ do JSON acima.
-Os outros atributos são preenchidos com os valores obtidos no portal conforme a foto.
 
-<p align="center">
-  <img src="images/api_key_location.png" width="600">
-</p>
-
-  > ---
-
-#### Variáveis Azure 
- - `URL_DOMAIN`
-O valor desta variável pode ser encontrado na url do repositório do projeto (conforme foto abaixo). O valor à ser preenchido deve ser somente a string que sucede o '__@__'.
-<p align="center">
-  <img src="images/create_url.png" width="600">
-</p>
- - `AZURE_TOKEN`
-O valor desta variável pode ser encontrado no portal da Azure no caminho ilustrado na imagem abaixo
-<p align="center">
-  <img src="images/create_token.png" width="400">
-</p>
-
-_Exemplo de resultado:_
-<p align="center">
-  <img src="images/urls_result.png" width="600">
-</p>
+---
 
 
-## Passo 4: Submeter certificados para o git
-Ao criar o setup do projeto, deverá ser criado todos os certificados e profiles no portal developer normalmente.
-Após isso, será necessário adicionar todos eles em um repositório git (pode ser o mesmo do projeto, ou o mais recomendado, que é criar um um novo só para estes arquivos), para que o fastlane (através do __match__) possa utiliza-los e gerencia-los sempre que necessário.
-Para adicionar os certificados no repositório, (já com o ambiente configurado e variáveis de ambiente preenchidas), deverá ser utilizado os seguintes comandos:
 
-```bash
-bundle exec fastlane match import --skip_certificate_matching true --type appstore
+## Passo 4: Configurar _build.grandle_
+Inserir as variáveis de assinatura no arquivo _'app/build_grandle'_ conforme o exemplo abaixo:
+
+ ```
+
+signingConfigs {
+ debug {
+ 	// Debug config
+ }
+ release {
+	def keystore = System.getenv("SPRING_POINT_STORE_FILE")
+	def keystorePass = System.getenv("SPRING_POINT_STORE_PASSWORD")
+	def kAlias = System.getenv("SPRING_POINT_KEY_ALIAS")
+	def kPass = System.getenv("SPRING_POINT_KEY_PASSWORD")
+	
+	storeFile file("$keystore")
+	storePassword "$keystorePass"
+	keyAlias  "$kAlias"
+	keyPassword "$kPass"             
+ 	}
+ }
+
+buildTypes {
+	debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            signingConfig signingConfigs.release
+ 	}
+ }
 ```
-
-_Obs.: O comando mostrado acima, se aplica apenas para o certificado de distribuição na appstore. O mesmo comando deve ser utilizado para os certificados de __adhoc__ e __development__, substituindo apenas o type para o correspondente._
-
-Ao fazer isso, será necessário passar três arquivos (__.cer__, __.p12__ e __.mobileprovision__) para cada um dos três comandos (--type appstore, --type adhoc e --type development).
-
-
 
 ## Passo 5: Configurar pipeline
 
@@ -107,8 +103,8 @@ Ao fazer isso, será necessário passar três arquivos (__.cer__, __.p12__ e __.
 			-  'Yes'
 			-  'No'
 
-		-  	name: testFlight
-			displayName: Upload to TestFlight
+		-  	name: playStore
+			displayName: Upload to Play Store
 			type: string
 			default: 'No'
 			values:
@@ -118,33 +114,25 @@ Ao fazer isso, será necessário passar três arquivos (__.cer__, __.p12__ e __.
 #####  Criar .env
  ```
 -  script:  |
-			cd app/ios/fastlane #Caminho para a pasta do fastlane
-			echo "URL_DOMAIN=$URL_DOMAIN" > .env
-			echo "AZURE_TOKEN=$AZURE_TOKEN" >> .env
-			echo "ARTIFACT_PROD_NAME=$ARTIFACT_PROD_NAME" >> .env
-			echo "ARTIFACT_DEV_NAME=$ARTIFACT_DEV_NAME" >> .env
-			echo "APP_IDENTIFIER=$APP_IDENTIFIER" >> .env
-			echo "WORKSPACE=$WORKSPACE" >> .env
-			echo "SCHEME=$SCHEME" >> .env
-			echo "TEAM_ID=$TEAM_ID" >> .env
-			echo "IC_TEAM_ID=$IC_TEAM_ID" >> .env
-			echo "MATCH_PASSWORD=$MATCH_PASSWORD" >> .env
-			echo "MATCH_KEYCHAIN_PASSWORD=$MATCH_KEYCHAIN_PASSWORD" >> .env
-			echo "APP_STORE_CONNECT_APPLE_ID=$APP_STORE_CONNECT_APPLE_ID" >> .env
-			echo "AUTH_APP_STORE_CONNECT_API_KEY=$AUTH_APP_STORE_CONNECT_API_KEY" >> .env
+          cd android/fastlane
+          echo "SPRING_POINT_STORE_FILE=$SPRING_POINT_STORE_FILE" > .env
+          echo "SPRING_POINT_STORE_PASSWORD=$SPRING_POINT_STORE_PASSWORD" >> .env
+          echo "SPRING_POINT_KEY_ALIAS=$SPRING_POINT_KEY_ALIAS" >> .env
+          echo "SPRING_POINT_KEY_PASSWORD=$SPRING_POINT_KEY_PASSWORD" >> .env
+          echo "PLAY_STORE_CONFIG_JSON=$PLAY_STORE_CONFIG_JSON" >> .env
 	displayName:  '.env fastlane file creation'
 ```
 
-#####  Gerar .ipa utilizando as funções disponíveis do arquivo FastFile da pasta fastlane
+#####  Gerar .apk utilizando as funções disponíveis do arquivo FastFile da pasta fastlane
  ```
 -  task:  Bash@3
 	condition:  eq('${{ parameters.softAppDist }}', 'Yes')
 	inputs:
 		targetType:  'inline'
 		script:  |
-			bundle install
-			bundle exec fastlane build_distribution
-displayName:  'Build iOS'
+		        bundle install
+		        bundle exec fastlane build_debug
+displayName:  'Build apk (debug)'
 ```
 #####  Enviar artefato para o Soft App Dist
  ```
@@ -153,49 +141,48 @@ displayName:  'Build iOS'
 	inputs:
 		projectId:  "ID do projeto"
 		apiKey:  "Key do projeto"
-		filePath:  app/ios/nomeDoApp.ipa (local do .ipa)
+		filePath:  app/ios/nomeDoApp.apk (local do .apk)
 	displayName:  Upload app to App Dist system
 ```
 
-#####  Enviar artefato para o Test Flight
+#####  Enviar artefato para a Play store
+
+__Obs__.: _ A versão é setada para teste interno na Google, caso você queira mudar a faixa, basta alterar a lane "_upload_play_store_" em "_/fastlane/Fastfile_", no atributo '_track_'. As opções isponíveis são: production, beta, alpha e internal.
  ```
 -  task:  Bash@3
-	condition:  eq('${{ parameters.testFlight }}', 'Yes')
+	condition:  eq('${{ parameters.playStore }}', 'Yes')
 	inputs:
 		targetType:  'inline'
 		script:  |
-			bundle install
-			bundle exec fastlane build_appStore
-displayName:  'Build iOS'
+		        bundle install
+		        bundle exec fastlane build_release
+		        bundle exec fastlane upload_play_store
+displayName:  'Build apk (release)'
 ```
 
 ---
  ### Funções disponíveis
- -  __Download project keys__
- Utilizado para baixar e instalar os certificados e profiles existentes no projeto.
-```bash
-bundle exec fastlane download_keys
-```
-   - __Build Distribution (AppDist, App center e Firebase)__
-Função utilizada para gerar uma compilação (.ipa) do projeto utilizando o certificado de __adHoc__. Esta funcão é utilizada apenas para fazer a compilação e posteriormente ser usada pelo CI (Azure Popelines) para submissão para outras ferramentas (Soft App Distribution e Firebase App Distribution).
 
-  -  __Algumas observações__:
-Por padrão a compilação é colocada dentro da pasta do projeto e utiliza a identificação inserida na variável  "_ARTIFACT_DEV_NAME_", que está sendo utilizado no atributo "_output_name_"
+* __Build Debug__
+Gera um apk em debug para posteriormente enviar para o App Dist.
 
 ```bash
-bundle exec fastlane build_distribution
+bundle exec fastlane build_debug
 ```
 
-* __Build App Store (TestFlight)__
-Função utilizada para gerar uma compilação (.ipa) do projeto utilizando o certificado de __appStore__. Está funcão será utilizada pelo CI (Azure DevOps) para gerar o arquivo e envia-lo para o Test Flight.
-
-  * __Algumas observações__:
-Não esqueça de versionar o app corretamente antes de submete-lo.
-Por padrão a compilação é colocada dentro da pasta do projeto e utiliza a identificação inserida na variável  "_ARTIFACT_PROD_NAME_", que está sendo utilizado no atributo "_output_name_"
+* __Build Release__
+Gera um aab release (assinado) para posteriormente enviar para o Google Play na faixa de teste selecionada.
 
 ```bash
-bundle exec fastlane build_appStore
+bundle exec fastlane build_release
 ```
+* __Upload Play Store__
+Envia o aab gerado na lane (build_release) para o Google Play na faixa selecionada.
+
+```bash
+bundle exec fastlane upload_play_store
+```
+
 ## Passo 6: Executar pipeline
 Para executar o pipeline, você pode ir até a área "Pipelines" no portal Azure, selecionar a branch e os atributos desejados e executar, conforme a imagem abaixo:
 <p align="center">
