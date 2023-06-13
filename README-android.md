@@ -1,13 +1,12 @@
 
 # Setup Android
 
-
-## Passo 2: Instalar e configurar o Fastlane
+## Passo 1: Instalar e configurar o Fastlane
 
 Para obter instruções de instalação do fastlane, consulte [Instalando _fastlane_](https://docs.fastlane.tools/getting-started/android/setup/).
 É recomendado seguir a instalação via [_Bundler_](https://bundler.io/), além de instalar um gerenciador de versões do Ruby o [_rbenv_](https://github.com/rbenv/rbenv#readme).
 
-## Passo 3: Inserir variáveis de ambiente
+## Passo 2: Inserir variáveis de ambiente
 Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de ambiente no seu .env localizado dentro da pasta _fastlane_.
 
 #### Informações do app
@@ -54,7 +53,7 @@ Para obter essa chave, é necessário ser um __administrador__ da conta de desen
 
 
 
-## Passo 4: Configurar _build.grandle_
+## Passo 3: Configurar _build.grandle_
 Inserir as variáveis de assinatura no arquivo _'app/build_grandle'_ conforme o exemplo abaixo:
 
  ```
@@ -86,7 +85,7 @@ buildTypes {
  }
 ```
 
-## Passo 5: Configurar pipeline
+## Passo 4: Configurar pipeline
 
 -   #### Preencher variáveis na Azure Dev Ops
 	- Deverá ser preenchido o valor de todas as variáveis do projeto no portal da Azure em __Pipelines -> Library__
@@ -183,7 +182,7 @@ Envia o aab gerado na lane (build_release) para o Google Play na faixa seleciona
 bundle exec fastlane upload_play_store
 ```
 
-## Passo 6: Executar pipeline
+## Passo 5: Executar pipeline
 Para executar o pipeline, você pode ir até a área "Pipelines" no portal Azure, selecionar a branch e os atributos desejados e executar, conforme a imagem abaixo:
 <p align="center">
   <img src="images/pipe-android.png" width="350">
