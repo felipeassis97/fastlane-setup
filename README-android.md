@@ -1,5 +1,5 @@
 
-# Setup Android
+# Setup Android Fastlane
 
 ## Passo 1: Instalar e configurar o Fastlane
 
