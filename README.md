@@ -6,7 +6,7 @@ Criar normalmente o projeto no portal da Apple juntamente com todos seus certifi
 - _Obs.: Sempre salvar e documentar todos os certificados na Wiki do projeto._
 
 ## Passo 2: Instalar e configurar o Fastlane
-
+Para iniciar este processo, você deve colar toda a pasta com a configuração do fastlane juntamente com o arquivo Gemfile na raiz do seu projeto. Em caso de projetos que utilizam Flutter ou React native, o conteúdo deve ser colado na pasta "ios", ou iniciar o processo do zero seguindo a documentação.
 Para obter instruções de instalação do fastlane, consulte [Instalando _fastlane_](https://docs.fastlane.tools/getting-started/ios/setup/).
 É recomendado seguir a instalação via [_Bundler_](https://bundler.io/), além de instalar um gerenciador de versões do Ruby o [_rbenv_](https://github.com/rbenv/rbenv#readme).
 
