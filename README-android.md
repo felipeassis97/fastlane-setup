@@ -63,10 +63,10 @@ signingConfigs {
  	// Debug config
  }
  release {
-	def keystore = System.getenv("SPRING_POINT_STORE_FILE")
-	def keystorePass = System.getenv("SPRING_POINT_STORE_PASSWORD")
-	def kAlias = System.getenv("SPRING_POINT_KEY_ALIAS")
-	def kPass = System.getenv("SPRING_POINT_KEY_PASSWORD")
+	def keystore = System.getenv("STORE_FILE")
+	def keystorePass = System.getenv("STORE_PASSWORD")
+	def kAlias = System.getenv("KEY_ALIAS")
+	def kPass = System.getenv("KEY_PASSWORD")
 	
 	storeFile file("$keystore")
 	storePassword "$keystorePass"
