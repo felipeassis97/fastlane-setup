@@ -2,7 +2,7 @@
 # Setup Android Fastlane
 
 ## Passo 1: Instalar e configurar o Fastlane
-
+Para iniciar este processo, você deve colar toda a pasta com a configuração do fastlane juntamente com o arquivo Gemfile na raiz do seu projeto. Em caso de projetos que utilizam Flutter ou React native, o conteúdo deve ser colado na pasta "android", ou iniciar o processo do zero seguindo a documentação.
 Para obter instruções de instalação do fastlane, consulte [Instalando _fastlane_](https://docs.fastlane.tools/getting-started/android/setup/).
 É recomendado seguir a instalação via [_Bundler_](https://bundler.io/), além de instalar um gerenciador de versões do Ruby o [_rbenv_](https://github.com/rbenv/rbenv#readme).
 
